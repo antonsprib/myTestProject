@@ -19,7 +19,7 @@ public class Lottery {
     private Long limit;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private Long startDate;
 
     @Column(name = "end_date")
     private Date endDate;
@@ -59,11 +59,11 @@ public class Lottery {
         this.limit = limit;
     }
 
-    public Date getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
