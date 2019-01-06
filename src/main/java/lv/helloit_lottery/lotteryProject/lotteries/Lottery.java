@@ -98,6 +98,7 @@ public class Lottery {
                 Objects.equals(startDate, lottery.startDate) &&
                 Objects.equals(endDate, lottery.endDate) &&
                 Objects.equals(lotteryStatus, lottery.lotteryStatus);
+
     }
 
     @Override

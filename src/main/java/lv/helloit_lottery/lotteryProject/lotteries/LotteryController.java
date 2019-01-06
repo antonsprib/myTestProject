@@ -10,5 +10,6 @@ public class LotteryController {
     @Autowired
     public LotteryController(LotteryService lotteryService) {
         this.lotteryService = lotteryService;
+
     }
 }

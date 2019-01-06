@@ -10,5 +10,6 @@ public class LotteryProjectApplication {
 		SpringApplication.run(LotteryProjectApplication.class, args);
 	}
 
+
 }
 

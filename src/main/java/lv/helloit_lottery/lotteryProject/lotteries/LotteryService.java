@@ -10,6 +10,7 @@ public class LotteryService {
 
     @Autowired
     public LotteryService(LotteryDAO lotteryDAO) {
+
         this.lotteryDAO = lotteryDAO;
     }
 }

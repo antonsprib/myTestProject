@@ -14,5 +14,6 @@ public class DataSourceConfiguration {
                 .addAnnotatedClass(Lottery.class)
                 .configure()
                 .buildSessionFactory();
+
     }
 }
