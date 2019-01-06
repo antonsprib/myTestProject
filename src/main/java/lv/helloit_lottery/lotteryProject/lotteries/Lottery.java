@@ -24,8 +24,8 @@ public class Lottery {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "status")
-    private String lotteryStatus;
+    @Enumerated(EnumType.STRING)
+    private Status lotteryStatus;
 
     public Long getId() {
         return id;
@@ -37,6 +37,14 @@ public class Lottery {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setLotteryStatus(Status lotteryStatus) {
+        this.lotteryStatus = lotteryStatus;
+    }
+
+    public Status getLotteryStatus() {
+        return lotteryStatus;
     }
 
     public void setTitle(String title) {
@@ -67,13 +75,6 @@ public class Lottery {
         this.endDate = endDate;
     }
 
-    public String getLotteryStatus() {
-        return lotteryStatus;
-    }
-
-    public void setLotteryStatus(String lotteryStatus) {
-        this.lotteryStatus = lotteryStatus;
-    }
 
     @Override
     public String toString() {
