@@ -1,6 +1,8 @@
 package lv.helloit_lottery.lotteryProject.lotteries;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,10 +14,13 @@ public class Lottery {
     @Column(name = "id")
     private Long id;
 
+    @NotNull (message = "Title can't be emptry")
+    @Size(min=1, max=100, message = "You entered too long title name")
     @Column(name = "title")
     private String title;
 
-    @Column(name = "users_limit")
+    @NotNull(message = "Participiant count can't be empty")
+    @Column(name = "participiants_limit")
     private Long limit;
 
     @Column(name = "start_date")

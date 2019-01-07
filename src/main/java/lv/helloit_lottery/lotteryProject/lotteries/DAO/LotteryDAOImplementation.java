@@ -1,5 +1,8 @@
-package lv.helloit_lottery.lotteryProject.lotteries;
+package lv.helloit_lottery.lotteryProject.lotteries.DAO;
 
+import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
+import lv.helloit_lottery.lotteryProject.lotteries.LotteryResponse;
+import lv.helloit_lottery.lotteryProject.lotteries.LotterySuccessResponse;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,20 +11,20 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class LotteryDAOImplementation implements LotteryDAO{
+public class LotteryDAOImplementation implements LotteryDAO {
     private final SessionFactory sessionFactory;
 
     @Autowired
     public LotteryDAOImplementation(SessionFactory sessionFactory) {
-
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public Long createLottery(Lottery lottery) {
+    public LotteryResponse createLottery(Lottery lottery) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -30,7 +33,7 @@ public class LotteryDAOImplementation implements LotteryDAO{
         transaction.commit();
         session.close();
 
-        return id;
+        return new LotterySuccessResponse("OK",id);
     }
 
     @Override
@@ -43,5 +46,24 @@ public class LotteryDAOImplementation implements LotteryDAO{
         List<Lottery> lotteries = session.createQuery(query).getResultList();
         session.close();
         return  lotteries;
+    }
+
+    @Override
+    public boolean titleIsRegistered(String title) {
+        Session session = sessionFactory.openSession();
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Lottery> query = builder.createQuery(Lottery.class);
+        Root<Lottery> root = query.from(Lottery.class);
+        query.where(builder.equal(root.get("title"), title));
+        query.select(root);
+
+        List<Lottery>  identicalUnits= session.createQuery(query).getResultList();
+        if(identicalUnits.size() != 0){
+            session.close();
+            return false;
+        }
+        session.close();
+        return true;
     }
 }

@@ -43,7 +43,7 @@ function addLotteries(lottery) {
     {
         mm='0'+mm;
     }
-    newDate = mm+'.'+dd+'.'+yyyy;
+    newDate = dd+'.'+mm+'.'+yyyy;
     const tr = document.createElement("tr");
     tr.innerHTML = `
         <td>${lottery.title}</td>
