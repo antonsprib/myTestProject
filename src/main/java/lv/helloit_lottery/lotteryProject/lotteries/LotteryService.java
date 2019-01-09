@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class LotteryService {
@@ -40,11 +42,16 @@ public class LotteryService {
 
         lottery.setStartDate(new Date().getTime());
         lottery.setLotteryStatus(Status.OPEN);
+        lottery.setRegisteredParticipants(0);
         return  lotteryDAO.createLottery(lottery);
     }
 
     public Collection<Lottery> lotteries(){
-        return lotteryDAO.getAll();
+
+        Collection<Lottery> lotteries = lotteryDAO.getAll();
+        lotteries.forEach (e -> e.setRegisteredParticipants(e.getParticipants().size()) );
+
+        return lotteries;
     }
 
     public boolean titleIsRegistered(String title){

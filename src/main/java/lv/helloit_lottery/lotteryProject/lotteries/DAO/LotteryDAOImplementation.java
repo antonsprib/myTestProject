@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class LotteryDAOImplementation implements LotteryDAO {
     }
 
     @Override
-    public List<Lottery> getAll() {
+    public Collection<Lottery> getAll() {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Lottery> query = builder.createQuery(Lottery.class);
@@ -73,6 +74,8 @@ public class LotteryDAOImplementation implements LotteryDAO {
         Session session = sessionFactory.openSession();
 
         Lottery lottery = session.get(Lottery.class, id);
+
+
 
         session.close();
         return Optional.ofNullable(lottery);

@@ -34,10 +34,14 @@ public class Lottery {
     @Column(name = "end_date")
     private Date endDate;
 
+    @Column(name = "registered_participants")
+    private Integer registeredParticipants;
+
     @Enumerated(EnumType.STRING)
     private Status lotteryStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lottery")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "lottery")
+    @JsonIgnore
     private List<Participant> participants;
 
     public Long getId() {
@@ -84,6 +88,22 @@ public class Lottery {
         return endDate;
     }
 
+    public Integer getRegisteredParticipants() {
+        return registeredParticipants;
+    }
+
+    public void setRegisteredParticipants(Integer registeredParticipants) {
+        this.registeredParticipants = registeredParticipants;
+    }
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
+    }
+
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
@@ -97,7 +117,9 @@ public class Lottery {
                 ", limit=" + limit +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", lotteryStatus='" + lotteryStatus + '\'' +
+                ", registeredParticipants=" + registeredParticipants +
+                ", lotteryStatus=" + lotteryStatus +
+                ", participants=" + participants +
                 '}';
     }
 
@@ -111,12 +133,13 @@ public class Lottery {
                 Objects.equals(limit, lottery.limit) &&
                 Objects.equals(startDate, lottery.startDate) &&
                 Objects.equals(endDate, lottery.endDate) &&
-                Objects.equals(lotteryStatus, lottery.lotteryStatus);
-
+                Objects.equals(registeredParticipants, lottery.registeredParticipants) &&
+                lotteryStatus == lottery.lotteryStatus &&
+                Objects.equals(participants, lottery.participants);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, limit, startDate, endDate, lotteryStatus);
+        return Objects.hash(id, title, limit, startDate, endDate, registeredParticipants, lotteryStatus, participants);
     }
 }
