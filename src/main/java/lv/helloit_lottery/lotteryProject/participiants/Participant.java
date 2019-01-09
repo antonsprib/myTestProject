@@ -20,16 +20,16 @@ public class Participant {
     private Byte age;
 
     @Column(name = "unique_code")
-    private Long uniqueCode;
+    private String uniqueCode;
 
     @Column(name= "lotteryId")
     private Long lotteryId;
 
-    public Long getUniqueCode() {
+    public String getUniqueCode() {
         return uniqueCode;
     }
 
-    public void setUniqueCode(Long uniqueCode) {
+    public void setUniqueCode(String uniqueCode) {
         this.uniqueCode = uniqueCode;
     }
 
