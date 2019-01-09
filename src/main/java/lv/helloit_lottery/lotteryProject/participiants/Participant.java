@@ -17,7 +17,7 @@ public class Participant {
     private String email;
 
     @Column(name = "age")
-    private String age;
+    private Byte age;
 
     @Column(name = "unique_code")
     private Long uniqueCode;
@@ -61,11 +61,11 @@ public class Participant {
         this.email = email;
     }
 
-    public String getAge() {
+    public Byte getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Byte age) {
         this.age = age;
     }
 
