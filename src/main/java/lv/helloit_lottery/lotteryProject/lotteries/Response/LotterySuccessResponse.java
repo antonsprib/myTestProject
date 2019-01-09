@@ -1,6 +1,8 @@
-package lv.helloit_lottery.lotteryProject.lotteries;
+package lv.helloit_lottery.lotteryProject.lotteries.Response;
 
-public class LotterySuccessResponse extends LotteryResponse{
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
+
+public class LotterySuccessResponse extends LotteryResponse {
     private Long id;
 
     public LotterySuccessResponse(String status, Long id) {

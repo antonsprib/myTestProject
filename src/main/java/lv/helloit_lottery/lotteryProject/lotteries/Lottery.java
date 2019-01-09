@@ -1,9 +1,14 @@
 package lv.helloit_lottery.lotteryProject.lotteries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lv.helloit_lottery.lotteryProject.participiants.Participant;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,13 +19,13 @@ public class Lottery {
     @Column(name = "id")
     private Long id;
 
-    @NotNull (message = "Title can't be emptry")
-    @Size(min=1, max=100, message = "You entered too long title name")
+    @NotBlank(message = "Title can't be emptry")
+    @Size(max=50, message = "You entered too long title name")
     @Column(name = "title")
     private String title;
 
-    @NotNull(message = "Participiant count can't be empty")
-    @Column(name = "participiants_limit")
+    @NotNull(message = "Participant count can't be empty")
+    @Column(name = "participant_limit")
     private Long limit;
 
     @Column(name = "start_date")
@@ -31,6 +36,9 @@ public class Lottery {
 
     @Enumerated(EnumType.STRING)
     private Status lotteryStatus;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lottery")
+    private List<Participant> participants;
 
     public Long getId() {
         return id;

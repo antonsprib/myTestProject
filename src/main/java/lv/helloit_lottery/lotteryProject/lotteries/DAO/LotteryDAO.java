@@ -1,10 +1,11 @@
 package lv.helloit_lottery.lotteryProject.lotteries.DAO;
 
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
-import lv.helloit_lottery.lotteryProject.lotteries.LotteryResponse;
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
 
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface LotteryDAO {
 
@@ -13,5 +14,7 @@ public interface LotteryDAO {
     Collection<Lottery> getAll();
 
     boolean titleIsRegistered(String title);
+
+    Optional<Lottery> getById(Long id);
 
 }

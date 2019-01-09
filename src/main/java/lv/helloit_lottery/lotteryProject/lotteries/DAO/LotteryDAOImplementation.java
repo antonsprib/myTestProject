@@ -1,8 +1,8 @@
 package lv.helloit_lottery.lotteryProject.lotteries.DAO;
 
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
-import lv.helloit_lottery.lotteryProject.lotteries.LotteryResponse;
-import lv.helloit_lottery.lotteryProject.lotteries.LotterySuccessResponse;
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotterySuccessResponse;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class LotteryDAOImplementation implements LotteryDAO {
@@ -65,5 +66,15 @@ public class LotteryDAOImplementation implements LotteryDAO {
         }
         session.close();
         return true;
+    }
+
+    @Override
+    public Optional<Lottery> getById(Long id) {
+        Session session = sessionFactory.openSession();
+
+        Lottery lottery = session.get(Lottery.class, id);
+
+        session.close();
+        return Optional.ofNullable(lottery);
     }
 }

@@ -1,6 +1,8 @@
-package lv.helloit_lottery.lotteryProject.lotteries;
+package lv.helloit_lottery.lotteryProject.lotteries.Response;
 
-public class LotteryWrongResponse extends LotteryResponse{
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
+
+public class LotteryWrongResponse extends LotteryResponse {
     private String reason;
 
     public LotteryWrongResponse() {

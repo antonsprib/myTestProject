@@ -1,6 +1,6 @@
-package lv.helloit_lottery.lotteryProject.lotteries;
+package lv.helloit_lottery.lotteryProject.participiants.Response;
 
-public class LotteryResponse {
+public class ParticipantResponse {
     private String status;
 
     public String getStatus() {
@@ -11,10 +11,10 @@ public class LotteryResponse {
         this.status = status;
     }
 
-    public LotteryResponse(String status) {
+    public ParticipantResponse(String status) {
         this.status = status;
     }
 
-    public LotteryResponse() {
+    public ParticipantResponse() {
     }
 }

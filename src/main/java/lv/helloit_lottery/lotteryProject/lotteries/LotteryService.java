@@ -1,6 +1,8 @@
 package lv.helloit_lottery.lotteryProject.lotteries;
 
 import lv.helloit_lottery.lotteryProject.lotteries.DAO.LotteryDAO;
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryWrongResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -26,10 +28,10 @@ public class LotteryService {
             int titleErrorCount = bindingResult.getFieldErrorCount("title");
             int limitErrorCount = bindingResult.getFieldErrorCount("limit");
 
-            titleMessageError = titleErrorCount != 0 ? bindingResult.getFieldError("title").getDefaultMessage() : "";
+            titleMessageError = titleErrorCount != 0 ? bindingResult.getFieldError("title").getDefaultMessage()  + "; \n": "";
             limitMessageError = limitErrorCount != 0 ? bindingResult.getFieldError("limit").getDefaultMessage() : "";
 
-            return new LotteryWrongResponse("Fail", titleMessageError + limitMessageError);
+            return new LotteryWrongResponse("Fail", titleMessageError  + limitMessageError);
         }
 
         if (!titleIsRegistered(lottery.getTitle())) {

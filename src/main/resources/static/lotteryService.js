@@ -11,9 +11,19 @@ function createLottery() {
         headers: {
             'Content-Type': 'application/json;charset=UTF-8'
         }
-    }).then(() => {
-        window.location.href = '/';
-});
+    }).then((resp) => resp.json()
+    ).then(response => {
+        if (response.status === 'OK') {
+            window.location.href = "/lottery/lotteryList.html";
+        } else {
+            const div = document.createElement('div');
+
+            div.innerHTML = `
+        <td>${response.reason}</td>
+`;
+            document.getElementById('errors').appendChild(div);
+        }
+    });
 }
 
 function loadLotteries() {
