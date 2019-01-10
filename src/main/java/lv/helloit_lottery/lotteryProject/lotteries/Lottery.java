@@ -37,6 +37,9 @@ public class Lottery {
     @Column(name = "registered_participants")
     private Integer registeredParticipants;
 
+    @Column(name = "winner_index")
+    private Integer winnerIndex;
+
     @Enumerated(EnumType.STRING)
     private Status lotteryStatus;
 
@@ -108,7 +111,13 @@ public class Lottery {
         this.participants = participants;
     }
 
+    public Integer getWinnerIndex() {
+        return winnerIndex;
+    }
 
+    public void setWinnerIndex(Integer winnerIndex) {
+        this.winnerIndex = winnerIndex;
+    }
 
     @Override
     public String toString() {
@@ -119,6 +128,7 @@ public class Lottery {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", registeredParticipants=" + registeredParticipants +
+                ", winnerIndex=" + winnerIndex +
                 ", lotteryStatus=" + lotteryStatus +
                 ", participants=" + participants +
                 '}';
@@ -135,12 +145,13 @@ public class Lottery {
                 Objects.equals(startDate, lottery.startDate) &&
                 Objects.equals(endDate, lottery.endDate) &&
                 Objects.equals(registeredParticipants, lottery.registeredParticipants) &&
+                Objects.equals(winnerIndex, lottery.winnerIndex) &&
                 lotteryStatus == lottery.lotteryStatus &&
                 Objects.equals(participants, lottery.participants);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, limit, startDate, endDate, registeredParticipants, lotteryStatus, participants);
+        return Objects.hash(id, title, limit, startDate, endDate, registeredParticipants, winnerIndex, lotteryStatus, participants);
     }
 }

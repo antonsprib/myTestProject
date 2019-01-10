@@ -2,6 +2,7 @@ package lv.helloit_lottery.lotteryProject.lotteries;
 
 import lv.helloit_lottery.lotteryProject.lotteries.DAO.LotteryDAO;
 import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
+import lv.helloit_lottery.lotteryProject.lotteries.Response.LotterySuccessResponse;
 import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryWrongResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,12 +58,34 @@ public class LotteryService {
 
     public LotteryResponse stopLotteryRegistration(Long lotteryId){
         Optional<Lottery>  wrappedLottery = lotteryDAO.getById(lotteryId);
-        Long endDate = new Date().getTime();
-        wrappedLottery.get().setEndDate(endDate);
-        wrappedLottery.get().setLotteryStatus(Status.CLOSED);
+        if (wrappedLottery.isPresent()) {
+            wrappedLottery.get().setLotteryStatus(Status.CLOSED);
 
 
-        lotteryDAO.updateLottery(wrappedLottery.get());
-        return new LotteryResponse("OK");
+            lotteryDAO.updateLottery(wrappedLottery.get());
+            return new LotterySuccessResponse("OK");
+        }
+        return new LotteryWrongResponse("FAIL", "FAIL");
+
+    }
+
+    public LotteryResponse chooseWinner(Long lotteryId){
+        Optional<Lottery> wrappedLottery = lotteryDAO.getById(lotteryId);
+        if(wrappedLottery.isPresent()){
+            int winnerIndex = new Random().nextInt(wrappedLottery.get().getRegisteredParticipants());
+
+
+
+            Long endDate = new Date().getTime();
+            wrappedLottery.get().setEndDate(endDate);
+
+            wrappedLottery.get().setWinnerIndex(winnerIndex);
+            wrappedLottery.get().setEndDate(endDate);
+            wrappedLottery.get().setLotteryStatus(Status.WINNER_SELECTED);
+
+            lotteryDAO.updateLottery(wrappedLottery.get());
+            return new LotterySuccessResponse("OK", wrappedLottery.get().getParticipants().get(winnerIndex).getUniqueCode());
+        }
+        return new LotteryWrongResponse("FAil", "fail");
     }
 }

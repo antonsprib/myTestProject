@@ -26,10 +26,14 @@ public class ParticipantService {
 
     public ParticipantResponse assignAndRegister(Participant participant){
         Optional<Lottery> wrappedLottery = lotteryDAO.getById(participant.getLotteryId());
+
         participant.setLottery(wrappedLottery.get());
         participant.setUniqueCode(generateParticipanCode(participant.getEmail(), participant.getLottery().getStartDate()));
+        wrappedLottery.get().setRegisteredParticipants(wrappedLottery.get().getRegisteredParticipants()+1);
 
         participantDAO.register(participant);
+        lotteryDAO.updateLottery(wrappedLottery.get());
+
         return new ParticipantResponse("OK");
 
     }

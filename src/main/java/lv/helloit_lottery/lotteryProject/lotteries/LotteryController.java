@@ -35,4 +35,10 @@ public class LotteryController {
         return lotteryService.stopLotteryRegistration(lotteryId);
     }
 
+    @PostMapping(value = "/choose-winner", produces = MediaType.APPLICATION_JSON_VALUE)
+    public LotteryResponse chooseWinner(@RequestBody Lottery lottery){
+        Long lotteryId = lottery.getId();
+        return lotteryService.chooseWinner(lotteryId);
+    }
+
 }
