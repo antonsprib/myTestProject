@@ -80,4 +80,16 @@ public class LotteryDAOImplementation implements LotteryDAO {
         session.close();
         return Optional.ofNullable(lottery);
     }
+
+    @Override
+    public void updateLottery(Lottery lottery) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        session.update(lottery);
+        transaction.commit();
+        session.close();
+    }
+
+
 }

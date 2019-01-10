@@ -18,4 +18,6 @@ public interface LotteryDAO {
 
     Optional<Lottery> getById(Long id);
 
+    void updateLottery(Lottery lottery);
+
 }

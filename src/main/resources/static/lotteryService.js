@@ -60,8 +60,26 @@ function addLotteries(lottery) {
         <td>${lottery.registeredParticipants} / ${lottery.limit}</td>
         <td>${newDate}</td>
         <td>${lottery.lotteryStatus}</td>
-        <td class="text-right"><button type="button" class="btn btn-success" onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> <button type="button" class="btn btn-danger">Stop lottery</button> <button type="button" class="btn btn-primary">Choose winner</button></td>
+        <td class="text-right"><button type="button" class="btn btn-success" onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> <button type="button" class="btn btn-danger" onclick="stopLottery(${lottery.id})">Stop lottery</button> <button type="button" class="btn btn-primary">Choose winner</button></td>
     `;
     document.getElementById("table-body").appendChild(tr);
+
+}
+
+function stopLottery(lotId) {
+
+    const id = lotId;
+
+    fetch("/stop-registration", {
+        method: 'POST',
+        body: JSON.stringify({
+            id: id,
+    }),
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+        }
+    }).then(() =>{
+        window.location.href = "/";
+    });
 
 }

@@ -32,7 +32,7 @@ public class Lottery {
     private Long startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private Long endDate;
 
     @Column(name = "registered_participants")
     private Integer registeredParticipants;
@@ -84,8 +84,12 @@ public class Lottery {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public Long getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(Long endDate) {
+        this.endDate = endDate;
     }
 
     public Integer getRegisteredParticipants() {
@@ -104,9 +108,6 @@ public class Lottery {
         this.participants = participants;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
 
     @Override

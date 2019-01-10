@@ -2,11 +2,9 @@ package lv.helloit_lottery.lotteryProject.lotteries;
 
 import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -28,6 +26,13 @@ public class LotteryController {
     @GetMapping(value = "/lotteries")
     public Collection<Lottery> lotteries(){
         return lotteryService.lotteries();
+    }
+
+    @PostMapping(value = "/stop-registration", produces = MediaType.APPLICATION_JSON_VALUE)
+    public LotteryResponse stopLotteryRegistration(@RequestBody Lottery lottery){
+
+        Long lotteryId = lottery.getId();
+        return lotteryService.stopLotteryRegistration(lotteryId);
     }
 
 }

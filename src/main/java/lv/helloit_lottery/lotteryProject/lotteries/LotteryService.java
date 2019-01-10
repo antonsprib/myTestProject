@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class LotteryService {
@@ -56,5 +53,16 @@ public class LotteryService {
 
     public boolean titleIsRegistered(String title){
         return lotteryDAO.titleIsRegistered(title);
+    }
+
+    public LotteryResponse stopLotteryRegistration(Long lotteryId){
+        Optional<Lottery>  wrappedLottery = lotteryDAO.getById(lotteryId);
+        Long endDate = new Date().getTime();
+        wrappedLottery.get().setEndDate(endDate);
+        wrappedLottery.get().setLotteryStatus(Status.CLOSED);
+
+
+        lotteryDAO.updateLottery(wrappedLottery.get());
+        return new LotteryResponse("OK");
     }
 }
