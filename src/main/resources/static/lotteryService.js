@@ -55,7 +55,9 @@ function addLotteries(lottery) {
     }
     newDate = dd+'.'+mm+'.'+yyyy;
     const tr = document.createElement("tr");
-    var buttonDisable = lottery.lotteryStatus ==='OPEN' ? '' : 'disabled';
+    var registerButtonDisable = lottery.lotteryStatus ==='OPEN' || lottery.registeredParticipants >= lottery.limit? '' : 'disabled';
+    var stopButtonDisable = lottery.lotteryStatus != 'OPEN' ? 'disabled' : '';
+    var winnerButtonDisable = lottery.lotteryStatus != 'CLOSED' ? 'disabled' : '';
 
     tr.innerHTML = `
         <td>${lottery.title}</td>
@@ -63,7 +65,7 @@ function addLotteries(lottery) {
         <td>${newDate}</td>
         <td>${lottery.lotteryStatus}</td>
         
-        <td class="text-right"><button type="button" class="btn btn-success" ${buttonDisable}  onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> <button type="button" class="btn btn-danger" onclick="stopLottery(${lottery.id})">Stop lottery</button> <button type="button" class="btn btn-primary" onclick="chooseWinner(${lottery.id})">Choose winner</button></td>
+        <td class="text-right"><button type="button" class="btn btn-success" ${registerButtonDisable}  onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> <button type="button" class="btn btn-danger" ${stopButtonDisable} onclick="stopLottery(${lottery.id})">Stop lottery</button> <button type="button" class="btn btn-primary" ${winnerButtonDisable} onclick="chooseWinner(${lottery.id})">Choose winner</button></td>
     `;
     document.getElementById("table-body").appendChild(tr);
 }

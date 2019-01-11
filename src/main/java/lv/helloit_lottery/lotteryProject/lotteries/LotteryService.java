@@ -38,6 +38,10 @@ public class LotteryService {
             return new LotteryWrongResponse("Fail", "Title with the same name is registered \n");
         }
 
+        if(lottery.getLimit() <= 0){
+            return new LotteryWrongResponse("Fail", "Participan count can be less or equals 0 \n");
+        }
+
         lottery.setStartDate(new Date().getTime());
         lottery.setLotteryStatus(Status.OPEN);
         lottery.setRegisteredParticipants(0);
@@ -59,7 +63,9 @@ public class LotteryService {
     public LotteryResponse stopLotteryRegistration(Long lotteryId) {
         Optional<Lottery> wrappedLottery = lotteryDAO.getById(lotteryId);
         if (wrappedLottery.isPresent()) {
-
+            if(wrappedLottery.get().getLotteryStatus() != Status.OPEN){
+                return new LotteryWrongResponse("Fail", "You can't stop lottery");
+            }
             wrappedLottery.get().setLotteryStatus(Status.CLOSED);
 
 
@@ -74,7 +80,7 @@ public class LotteryService {
         Optional<Lottery> wrappedLottery = lotteryDAO.getById(lotteryId);
         if (wrappedLottery.isPresent()) {
 
-            if(wrappedLottery.get().getLotteryStatus() != Status.WINNER_SELECTED){
+            if(wrappedLottery.get().getLotteryStatus() != Status.CLOSED){
                 return new LotteryWrongResponse("Fail", "You can't choose winner while lottery is not stopped");
             }
             if(wrappedLottery.get().getRegisteredParticipants() == 0){
