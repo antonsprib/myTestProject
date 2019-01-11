@@ -64,7 +64,7 @@ public class LotteryService {
         Optional<Lottery> wrappedLottery = lotteryDAO.getById(lotteryId);
         if (wrappedLottery.isPresent()) {
             if(wrappedLottery.get().getLotteryStatus() != Status.OPEN){
-                return new LotteryWrongResponse("Fail", "You can't stop lottery");
+                return new LotteryWrongResponse("Fail", "You can't stop lottery. Lottery is stopped or winner is selected");
             }
             wrappedLottery.get().setLotteryStatus(Status.CLOSED);
 
@@ -81,14 +81,13 @@ public class LotteryService {
         if (wrappedLottery.isPresent()) {
 
             if(wrappedLottery.get().getLotteryStatus() != Status.CLOSED){
-                return new LotteryWrongResponse("Fail", "You can't choose winner while lottery is not stopped");
+                return new LotteryWrongResponse("Fail", "You can't choose winner if lottery is not stopped");
             }
             if(wrappedLottery.get().getRegisteredParticipants() == 0){
-                return new LotteryWrongResponse("Fail", "Can't choose wiiner if participan count = 0");
+                return new LotteryWrongResponse("Fail", "Can't choose winer if participan count = 0");
             }
 
             int winnerIndex = new Random().nextInt(wrappedLottery.get().getRegisteredParticipants());
-
 
             Long endDate = new Date().getTime();
             wrappedLottery.get().setEndDate(endDate);
@@ -100,7 +99,7 @@ public class LotteryService {
             lotteryDAO.updateLottery(wrappedLottery.get());
             return new LotterySuccessResponse("OK", wrappedLottery.get().getParticipants().get(winnerIndex).getUniqueCode());
         }
-        return new LotteryWrongResponse("FAil", "Lottery does not exist");
+        return new LotteryWrongResponse("Fail", "Lottery does not exist");
     }
 
     public Collection<Lottery> getStatistic() {
