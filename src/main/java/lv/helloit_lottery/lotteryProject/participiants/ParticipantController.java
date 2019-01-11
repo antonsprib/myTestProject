@@ -1,7 +1,8 @@
 package lv.helloit_lottery.lotteryProject.participiants;
 
 
-import lv.helloit_lottery.lotteryProject.participiants.Response.ParticipantResponse;
+import lv.helloit_lottery.lotteryProject.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class ParticipantController {
     }
 
     @PostMapping(value = "/register")
-    public ParticipantResponse register(@Valid @RequestBody Participant participant, BindingResult bindingResult) {
+    public Response register(@Valid @RequestBody Participant participant, BindingResult bindingResult) {
 
         return participantService.assignAndRegister(participant, bindingResult);
 

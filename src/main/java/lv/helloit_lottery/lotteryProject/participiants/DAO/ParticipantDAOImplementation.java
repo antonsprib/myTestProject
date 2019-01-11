@@ -1,8 +1,8 @@
 package lv.helloit_lottery.lotteryProject.participiants.DAO;
 
+import lv.helloit_lottery.lotteryProject.Response;
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
 import lv.helloit_lottery.lotteryProject.participiants.Participant;
-import lv.helloit_lottery.lotteryProject.participiants.Response.ParticipantResponse;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -27,7 +27,7 @@ public class ParticipantDAOImplementation implements ParticipantDAO{
     }
 
     @Override
-    public ParticipantResponse register(Participant participant) {
+    public Response register(Participant participant) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(participant);
@@ -35,7 +35,7 @@ public class ParticipantDAOImplementation implements ParticipantDAO{
         transaction.commit();
         session.close();
 
-        return new ParticipantResponse("OK");
+        return new Response("OK");
     }
 
     @Override
@@ -55,6 +55,18 @@ public class ParticipantDAOImplementation implements ParticipantDAO{
         }
         session.close();
         return true;
+    }
+
+    @Override
+    public Collection<Participant> getAll() {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Participant> query = builder.createQuery(Participant.class);
+        query.select(query.from(Participant.class));
+
+        List<Participant> participants = session.createQuery(query).getResultList();
+        session.close();
+        return  participants;
     }
 
 

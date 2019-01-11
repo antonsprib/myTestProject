@@ -1,12 +1,11 @@
 package lv.helloit_lottery.lotteryProject.participiants;
 
+import lv.helloit_lottery.lotteryProject.Response;
 import lv.helloit_lottery.lotteryProject.lotteries.DAO.LotteryDAO;
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
-import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryWrongResponse;
 import lv.helloit_lottery.lotteryProject.lotteries.Status;
 import lv.helloit_lottery.lotteryProject.participiants.DAO.ParticipantDAO;
-import lv.helloit_lottery.lotteryProject.participiants.Response.ParticipantResponse;
-import lv.helloit_lottery.lotteryProject.participiants.Response.ParticipantWrongResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -28,7 +27,7 @@ public class ParticipantService {
         this.lotteryDAO = lotteryDAO;
     }
 
-    public ParticipantResponse assignAndRegister(Participant participant, BindingResult bindingResult) {
+    public Response assignAndRegister(Participant participant, BindingResult bindingResult) {
         Optional<Lottery> wrappedLottery = lotteryDAO.getById(participant.getLotteryId());
 
         if (wrappedLottery.isPresent()) {
@@ -46,15 +45,15 @@ public class ParticipantService {
                 ageMessageError = ageErrorCount != 0 ? bindingResult.getFieldError("age").getDefaultMessage()+ "; \n" : "";
                 lotteryIdMessageError = lotteryIdErrorCount != 0 ? bindingResult.getFieldError("lotteryId").getDefaultMessage()+ "; \n" : "";
 
-                return new ParticipantWrongResponse("Fail", emailMessageError + ageMessageError + lotteryIdMessageError);
+                return new Response("Fail", emailMessageError + ageMessageError + lotteryIdMessageError);
             }
 
             if (!wrappedLottery.get().getLotteryStatus().equals(Status.OPEN)) {
-                return new ParticipantWrongResponse("Fail", "Registration for this lottery is closed. Please choose lottery with status open");
+                return new Response("Fail", "Registration for this lottery is closed. Please choose lottery with status open");
             }
 
             if (wrappedLottery.get().getRegisteredParticipants() >= wrappedLottery.get().getLimit()) {
-                return new ParticipantWrongResponse("Fail", "Sorry, choosen by you lottery is full");
+                return new Response("Fail", "Sorry, choosen by you lottery is full");
             }
 
 //            String uniqueCode = generateParticipanCode(participant.getEmail(), participant.getLottery().getStartDate());
@@ -70,10 +69,10 @@ public class ParticipantService {
             participantDAO.register(participant);
             lotteryDAO.updateLottery(wrappedLottery.get());
 
-            return new ParticipantResponse("OK");
+            return new Response("OK");
         }
 
-        return new ParticipantWrongResponse("Fail", "Lottery does not exist");
+        return new Response("Fail", "Lottery does not exist");
 
     }
 

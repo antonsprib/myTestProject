@@ -1,8 +1,8 @@
 package lv.helloit_lottery.lotteryProject.lotteries.DAO;
 
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
-import lv.helloit_lottery.lotteryProject.lotteries.Response.LotteryResponse;
-import lv.helloit_lottery.lotteryProject.lotteries.Response.LotterySuccessResponse;
+
+import lv.helloit_lottery.lotteryProject.Response;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,7 +26,7 @@ public class LotteryDAOImplementation implements LotteryDAO {
     }
 
     @Override
-    public LotteryResponse createLottery(Lottery lottery) {
+    public Response createLottery(Lottery lottery) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -35,7 +35,7 @@ public class LotteryDAOImplementation implements LotteryDAO {
         transaction.commit();
         session.close();
 
-        return new LotterySuccessResponse("OK",id);
+        return new Response("OK",id);
     }
 
     @Override
