@@ -41,4 +41,9 @@ public class LotteryController {
         return lotteryService.chooseWinner(lotteryId);
     }
 
+    @GetMapping(value = "/stats")
+    public  Collection<Lottery> getStatistic(){
+        return lotteryService.getStatistic();
+    }
+
 }

@@ -20,7 +20,7 @@ public class LotteryService {
         this.lotteryDAO = lotteryDAO;
     }
 
-    public LotteryResponse createLottery(Lottery lottery, BindingResult bindingResult){
+    public LotteryResponse createLottery(Lottery lottery, BindingResult bindingResult) {
         String titleMessageError;
         String limitMessageError;
 
@@ -28,10 +28,10 @@ public class LotteryService {
             int titleErrorCount = bindingResult.getFieldErrorCount("title");
             int limitErrorCount = bindingResult.getFieldErrorCount("limit");
 
-            titleMessageError = titleErrorCount != 0 ? bindingResult.getFieldError("title").getDefaultMessage()  + "; \n": "";
+            titleMessageError = titleErrorCount != 0 ? bindingResult.getFieldError("title").getDefaultMessage() + "; \n" : "";
             limitMessageError = limitErrorCount != 0 ? bindingResult.getFieldError("limit").getDefaultMessage() : "";
 
-            return new LotteryWrongResponse("Fail", titleMessageError  + limitMessageError);
+            return new LotteryWrongResponse("Fail", titleMessageError + limitMessageError);
         }
 
         if (!titleIsRegistered(lottery.getTitle())) {
@@ -41,24 +41,25 @@ public class LotteryService {
         lottery.setStartDate(new Date().getTime());
         lottery.setLotteryStatus(Status.OPEN);
         lottery.setRegisteredParticipants(0);
-        return  lotteryDAO.createLottery(lottery);
+        return lotteryDAO.createLottery(lottery);
     }
 
-    public Collection<Lottery> lotteries(){
+    public Collection<Lottery> lotteries() {
 
         Collection<Lottery> lotteries = lotteryDAO.getAll();
-        lotteries.forEach (e -> e.setRegisteredParticipants(e.getParticipants().size()) );
+        lotteries.forEach(e -> e.setRegisteredParticipants(e.getParticipants().size()));
 
         return lotteries;
     }
 
-    public boolean titleIsRegistered(String title){
+    public boolean titleIsRegistered(String title) {
         return lotteryDAO.titleIsRegistered(title);
     }
 
-    public LotteryResponse stopLotteryRegistration(Long lotteryId){
-        Optional<Lottery>  wrappedLottery = lotteryDAO.getById(lotteryId);
+    public LotteryResponse stopLotteryRegistration(Long lotteryId) {
+        Optional<Lottery> wrappedLottery = lotteryDAO.getById(lotteryId);
         if (wrappedLottery.isPresent()) {
+
             wrappedLottery.get().setLotteryStatus(Status.CLOSED);
 
 
@@ -69,11 +70,18 @@ public class LotteryService {
 
     }
 
-    public LotteryResponse chooseWinner(Long lotteryId){
+    public LotteryResponse chooseWinner(Long lotteryId) {
         Optional<Lottery> wrappedLottery = lotteryDAO.getById(lotteryId);
-        if(wrappedLottery.isPresent()){
-            int winnerIndex = new Random().nextInt(wrappedLottery.get().getRegisteredParticipants());
+        if (wrappedLottery.isPresent()) {
 
+            if(wrappedLottery.get().getLotteryStatus() != Status.WINNER_SELECTED){
+                return new LotteryWrongResponse("Fail", "You can't choose winner while lottery is not stopped");
+            }
+            if(wrappedLottery.get().getRegisteredParticipants() == 0){
+                return new LotteryWrongResponse("Fail", "Can't choose wiiner if participan count = 0");
+            }
+
+            int winnerIndex = new Random().nextInt(wrappedLottery.get().getRegisteredParticipants());
 
 
             Long endDate = new Date().getTime();
@@ -86,6 +94,18 @@ public class LotteryService {
             lotteryDAO.updateLottery(wrappedLottery.get());
             return new LotterySuccessResponse("OK", wrappedLottery.get().getParticipants().get(winnerIndex).getUniqueCode());
         }
-        return new LotteryWrongResponse("FAil", "fail");
+        return new LotteryWrongResponse("FAil", "Lottery does not exist");
+    }
+
+    public Collection<Lottery> getStatistic() {
+        Collection<Lottery> lotteries = lotteryDAO.getAll();
+        List<Lottery> finishedLotteries = new ArrayList<>();
+
+        for (Lottery lottery :lotteries) {
+            if(lottery.getLotteryStatus().equals(Status.WINNER_SELECTED)){
+                finishedLotteries.add(lottery);
+            }
+        }
+        return finishedLotteries;
     }
 }

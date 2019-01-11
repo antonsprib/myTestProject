@@ -55,15 +55,17 @@ function addLotteries(lottery) {
     }
     newDate = dd+'.'+mm+'.'+yyyy;
     const tr = document.createElement("tr");
+    var buttonDisable = lottery.lotteryStatus ==='OPEN' ? '' : 'disabled';
+
     tr.innerHTML = `
         <td>${lottery.title}</td>
         <td>${lottery.registeredParticipants} / ${lottery.limit}</td>
         <td>${newDate}</td>
         <td>${lottery.lotteryStatus}</td>
-        <td class="text-right"><button type="button" class="btn btn-success" onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> <button type="button" class="btn btn-danger" onclick="stopLottery(${lottery.id})">Stop lottery</button> <button type="button" class="btn btn-primary">Choose winner</button></td>
+        
+        <td class="text-right"><button type="button" class="btn btn-success" ${buttonDisable}  onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> <button type="button" class="btn btn-danger" onclick="stopLottery(${lottery.id})">Stop lottery</button> <button type="button" class="btn btn-primary" onclick="chooseWinner(${lottery.id})">Choose winner</button></td>
     `;
     document.getElementById("table-body").appendChild(tr);
-
 }
 
 function stopLottery(lotId) {
@@ -77,6 +79,24 @@ function stopLottery(lotId) {
     }),
     headers: {
         'Content-Type': 'application/json;charset=UTF-8'
+        }
+    }).then(() =>{
+        window.location.href = "/";
+    });
+
+}
+
+function chooseWinner(lotId){
+
+    const id = lotId;
+
+    fetch("/choose-winner", {
+        method: 'POST',
+        body: JSON.stringify({
+            id: id,
+        }),
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
         }
     }).then(() =>{
         window.location.href = "/";

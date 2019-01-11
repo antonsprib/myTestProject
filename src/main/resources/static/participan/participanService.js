@@ -13,8 +13,13 @@ function registerParticipan() {
         headers: {
             "Content-Type": "application/json;charset=UTF-8"
         }
-    }).then(() =>{
-        window.location.href = "/";
+    }).then((resp) => resp.json()
+    ).then(response => {
+        if (response.status === 'OK') {
+            window.location.href = "/";
+        } else {
+            alert(response.reason);
+        }
     });
 
 }

@@ -3,9 +3,12 @@ package lv.helloit_lottery.lotteryProject.participiants;
 
 import lv.helloit_lottery.lotteryProject.participiants.Response.ParticipantResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 public class ParticipantController {
@@ -18,9 +21,9 @@ public class ParticipantController {
     }
 
     @PostMapping(value = "/register")
-    public ParticipantResponse register(@RequestBody Participant participant){
+    public ParticipantResponse register(@Valid @RequestBody Participant participant, BindingResult bindingResult) {
 
-        return participantService.assignAndRegister(participant);
+        return participantService.assignAndRegister(participant, bindingResult);
 
     }
 }
