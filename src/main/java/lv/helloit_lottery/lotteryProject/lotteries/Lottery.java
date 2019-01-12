@@ -26,6 +26,7 @@ public class Lottery {
 
     @NotNull(message = "Participant count can't be empty")
     @Column(name = "participant_limit")
+
     private Long limit;
 
     @Column(name = "start_date")
@@ -38,16 +39,19 @@ public class Lottery {
     private Integer registeredParticipants;
 
     @Column(name = "winner_code")
+
     private String winnerCode;
 
     @Column(name = "winner_email")
+
     private String winnerEmail;
 
     @Enumerated(EnumType.STRING)
-    private Status lotteryStatus;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "lottery")
+    private Status lotteryStatus;
     @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "lottery")
+
     private List<Participant> participants;
 
     public Long getId() {

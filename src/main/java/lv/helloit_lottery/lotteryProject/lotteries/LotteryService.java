@@ -114,6 +114,10 @@ public class LotteryService {
 
         for (Lottery lottery :lotteries) {
             if(lottery.getLotteryStatus().equals(Status.WINNER_SELECTED)){
+                lottery.setLimit(null);
+                lottery.setWinnerCode(null);
+                lottery.setWinnerEmail(null);
+                lottery.setLotteryStatus(null);
                 finishedLotteries.add(lottery);
             }
         }
@@ -126,13 +130,14 @@ public class LotteryService {
 
         if(wrappedLottery.isPresent()){
 
-            if(wrappedLottery.get().getLotteryStatus() != Status.WINNER_SELECTED){
-                return new Response("PENDING");
-            }
 
             for(Participant participant : wrappedLottery.get().getParticipants()){
 
                 if(participant.getEmail().equals(email) && participant.getUniqueCode().equals(code)){
+
+                    if(wrappedLottery.get().getLotteryStatus() != Status.WINNER_SELECTED){
+                        return new Response("PENDING");
+                    }
 
                     if(wrappedLottery.get().getWinnerEmail().equals(email) && wrappedLottery.get().getWinnerCode().equals(code)){
                         return new Response("WIN");
@@ -141,6 +146,7 @@ public class LotteryService {
                     }
                 }
             }
+
         }
         return new Response("ERROR ");
     }

@@ -24,9 +24,9 @@ public class Participant {
     @Column(name = "age")
     private Byte age;
 
-    @NotNull(message = "Field code can't be empty")
+    @NotBlank(message = "Field code can't be empty")
     @Size(min=16, max = 16, message = "Code size need to be 16 digits")
-    @Column(name = "unique_code")
+    @Column(name = "uniqueCode")
     private String uniqueCode;
 
     @NotNull(message = "Field lotteryId can't be empty")

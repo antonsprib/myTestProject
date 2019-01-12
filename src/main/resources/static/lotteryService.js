@@ -26,6 +26,8 @@ function createLottery() {
     });
 }
 
+
+
 function loadLotteries() {
     fetch("/lotteries",{
         method: "GET"
@@ -37,6 +39,8 @@ function loadLotteries() {
         }
     });
 }
+
+
 
 function addLotteries(lottery) {
     var newDate = new Date(lottery.startDate);
@@ -66,10 +70,16 @@ function addLotteries(lottery) {
         <td>${newDate}</td>
         <td>${lottery.lotteryStatus}</td>
         
-        <td class="text-right"><button type="button" class="btn btn-success" ${registerButtonDisable}  onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> <button type="button" class="btn btn-danger" ${stopButtonDisable} onclick="stopLottery(${lottery.id})">Stop lottery</button> <button type="button" class="btn btn-primary" ${winnerButtonDisable} onclick="chooseWinner(${lottery.id})">Choose winner</button></td>
+        <td class="text-right"><button type="button" class="btn btn-success" ${registerButtonDisable}  onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> 
+                                <button type="button" class="btn btn-primary"  onclick="location.href='getStatus.html?id=${lottery.id}'">Status</button>
+                                <button type="button" class="btn btn-danger" ${stopButtonDisable} onclick="stopLottery(${lottery.id})">Stop lottery</button> 
+                                <button type="button" class="btn btn-primary" ${winnerButtonDisable} onclick="chooseWinner(${lottery.id})">Choose winner</button>
+        </td>
     `;
     document.getElementById("table-body").appendChild(tr);
 }
+
+
 
 function stopLottery(lotId) {
 
@@ -78,7 +88,7 @@ function stopLottery(lotId) {
     fetch("/stop-registration", {
         method: 'POST',
         body: JSON.stringify({
-            id: id,
+            id: id
     }),
     headers: {
         'Content-Type': 'application/json;charset=UTF-8'
@@ -89,6 +99,8 @@ function stopLottery(lotId) {
 
 }
 
+
+
 function chooseWinner(lotId){
 
     const id = lotId;
@@ -96,7 +108,7 @@ function chooseWinner(lotId){
     fetch("/choose-winner", {
         method: 'POST',
         body: JSON.stringify({
-            id: id,
+            id: id
         }),
         headers: {
             'Content-Type': 'application/json;charset=UTF-8'
@@ -106,6 +118,8 @@ function chooseWinner(lotId){
     });
 
 }
+
+
 
 function loadStatistic() {
     fetch("/stats",{
@@ -118,6 +132,8 @@ function loadStatistic() {
         }
     });
 }
+
+
 
 function addStatistics(statistic) {
     var startDate = convertDateWithTime(statistic.startDate);
@@ -133,6 +149,8 @@ function addStatistics(statistic) {
     `;
     document.getElementById("table-body").appendChild(tr);
 }
+
+
 
 function convertDateWithTime(date){
     var newDate = new Date(date);
@@ -153,6 +171,21 @@ function convertDateWithTime(date){
         mm='0'+mm;
     }
     return newDate = dd+'.'+mm+'.'+yyyy + ' ' +hh + ':' + min;
+}
+
+
+function getStatus(){
+    const email = document.getElementById('email').value;
+    const code = document.getElementById('uniqueCode').value;
+    const id = new URL(window.location.href).searchParams.get('id');
+
+    fetch('/status?id=' + id + '&email=' + email + '&code=' + code, {
+        method: 'GET'
+        }).then((resp) => resp.json()
+    ).then(response => {
+        alert(response.status);
+    });
+
 }
 
 function convertDate(date){
