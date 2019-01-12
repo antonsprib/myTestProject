@@ -91,16 +91,19 @@ public class LotteryService {
             }
 
             int winnerIndex = new Random().nextInt(wrappedLottery.get().getRegisteredParticipants());
+            String winnerCode = wrappedLottery.get().getParticipants().get(winnerIndex).getUniqueCode();
+            String winnerEmail = wrappedLottery.get().getParticipants().get(winnerIndex).getEmail();
 
             Long endDate = new Date().getTime();
             wrappedLottery.get().setEndDate(endDate);
 
-            wrappedLottery.get().setWinnerIndex(winnerIndex);
+            wrappedLottery.get().setWinnerCode(winnerCode);
+            wrappedLottery.get().setWinnerEmail(winnerEmail);
             wrappedLottery.get().setEndDate(endDate);
             wrappedLottery.get().setLotteryStatus(Status.WINNER_SELECTED);
 
             lotteryDAO.updateLottery(wrappedLottery.get());
-            return new Response("OK", null, wrappedLottery.get().getParticipants().get(winnerIndex).getUniqueCode());
+            return new Response("OK", null, wrappedLottery.get().getWinnerCode());
         }
         return new Response("Fail", "Lottery does not exist");
     }
@@ -130,10 +133,8 @@ public class LotteryService {
             for(Participant participant : wrappedLottery.get().getParticipants()){
 
                 if(participant.getEmail().equals(email) && participant.getUniqueCode().equals(code)){
-                    String winningEmail = wrappedLottery.get().getParticipants().get(wrappedLottery.get().getWinnerIndex()).getEmail();
-                    String winningCode = wrappedLottery.get().getParticipants().get(wrappedLottery.get().getWinnerIndex()).getUniqueCode();
 
-                    if(winningEmail.equals(email) && winningCode.equals(code)){
+                    if(wrappedLottery.get().getWinnerEmail().equals(email) && wrappedLottery.get().getWinnerCode().equals(code)){
                         return new Response("WIN");
                     } else{
                         return new Response("LOSE");

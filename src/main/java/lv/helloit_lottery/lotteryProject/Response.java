@@ -7,7 +7,7 @@ public class Response {
 
     private String status;
     private Long id;
-    private String uniqueCode;
+    private String winnerCode;
     private String reason;
 
     public Response(String status, Long id) {
@@ -26,11 +26,17 @@ public class Response {
         this.status = status;
         this.reason = reason;
     }
-
-    public Response(String status, Long id, String uniqueCode) {
+    public Response(String status, Long id, String winnerCode) {
         this.status = status;
         this.id = id;
-        this.uniqueCode = uniqueCode;
+        this.winnerCode = winnerCode;
+    }
+    public String getWinnerCode() {
+        return winnerCode;
+    }
+
+    public void setWinnerCode(String winnerCode) {
+        this.winnerCode = winnerCode;
     }
 
     public String getStatus() {
@@ -49,13 +55,7 @@ public class Response {
         this.id = id;
     }
 
-    public String getUniqueCode() {
-        return uniqueCode;
-    }
 
-    public void setUniqueCode(String uniqueCode) {
-        this.uniqueCode = uniqueCode;
-    }
 
     public String getReason() {
         return reason;

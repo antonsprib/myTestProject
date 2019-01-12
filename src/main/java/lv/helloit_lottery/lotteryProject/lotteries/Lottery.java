@@ -37,8 +37,11 @@ public class Lottery {
     @Column(name = "registered_participants")
     private Integer registeredParticipants;
 
-    @Column(name = "winner_index")
-    private Integer winnerIndex;
+    @Column(name = "winner_code")
+    private String winnerCode;
+
+    @Column(name = "winner_email")
+    private String winnerEmail;
 
     @Enumerated(EnumType.STRING)
     private Status lotteryStatus;
@@ -111,12 +114,20 @@ public class Lottery {
         this.participants = participants;
     }
 
-    public Integer getWinnerIndex() {
-        return winnerIndex;
+    public String getWinnerCode() {
+        return winnerCode;
     }
 
-    public void setWinnerIndex(Integer winnerIndex) {
-        this.winnerIndex = winnerIndex;
+    public void setWinnerCode(String winnerCode) {
+        this.winnerCode = winnerCode;
+    }
+
+    public String getWinnerEmail() {
+        return winnerEmail;
+    }
+
+    public void setWinnerEmail(String winnerEmail) {
+        this.winnerEmail = winnerEmail;
     }
 
     @Override
@@ -128,7 +139,8 @@ public class Lottery {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", registeredParticipants=" + registeredParticipants +
-                ", winnerIndex=" + winnerIndex +
+                ", winnerCode='" + winnerCode + '\'' +
+                ", winnerEmail='" + winnerEmail + '\'' +
                 ", lotteryStatus=" + lotteryStatus +
                 ", participants=" + participants +
                 '}';
@@ -145,13 +157,14 @@ public class Lottery {
                 Objects.equals(startDate, lottery.startDate) &&
                 Objects.equals(endDate, lottery.endDate) &&
                 Objects.equals(registeredParticipants, lottery.registeredParticipants) &&
-                Objects.equals(winnerIndex, lottery.winnerIndex) &&
+                Objects.equals(winnerCode, lottery.winnerCode) &&
+                Objects.equals(winnerEmail, lottery.winnerEmail) &&
                 lotteryStatus == lottery.lotteryStatus &&
                 Objects.equals(participants, lottery.participants);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, limit, startDate, endDate, registeredParticipants, winnerIndex, lotteryStatus, participants);
+        return Objects.hash(id, title, limit, startDate, endDate, registeredParticipants, winnerCode, winnerEmail, lotteryStatus, participants);
     }
 }
