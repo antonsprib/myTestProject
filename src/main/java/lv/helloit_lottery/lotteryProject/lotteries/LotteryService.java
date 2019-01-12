@@ -136,11 +136,9 @@ public class LotteryService {
 
                     if(wrappedLottery.get().getWinnerEmail().equals(email) && wrappedLottery.get().getWinnerCode().equals(code)){
                         return new Response("WIN");
-                    } else{
+                    } else {
                         return new Response("LOSE");
                     }
-                } else{
-                    return new Response("ERROR ");
                 }
             }
         }
