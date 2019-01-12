@@ -6,14 +6,13 @@ import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
 import lv.helloit_lottery.lotteryProject.lotteries.Status;
 import lv.helloit_lottery.lotteryProject.participiants.DAO.ParticipantDAO;
 
+import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class ParticipantService {
@@ -32,22 +31,6 @@ public class ParticipantService {
 
         if (wrappedLottery.isPresent()) {
 
-            String emailMessageError;
-            String ageMessageError;
-            String lotteryIdMessageError;
-
-            if (bindingResult.hasErrors()) {
-                int emailErrorCount = bindingResult.getFieldErrorCount("email");
-                int ageErrorCount = bindingResult.getFieldErrorCount("age");
-                int lotteryIdErrorCount = bindingResult.getFieldErrorCount("lotteryId");
-
-                emailMessageError = emailErrorCount != 0 ? bindingResult.getFieldError("email").getDefaultMessage() + "; \n" : "";
-                ageMessageError = ageErrorCount != 0 ? bindingResult.getFieldError("age").getDefaultMessage()+ "; \n" : "";
-                lotteryIdMessageError = lotteryIdErrorCount != 0 ? bindingResult.getFieldError("lotteryId").getDefaultMessage()+ "; \n" : "";
-
-                return new Response("Fail", emailMessageError + ageMessageError + lotteryIdMessageError);
-            }
-
             if (!wrappedLottery.get().getLotteryStatus().equals(Status.OPEN)) {
                 return new Response("Fail", "Registration for this lottery is closed. Please choose lottery with status open");
             }
@@ -56,14 +39,41 @@ public class ParticipantService {
                 return new Response("Fail", "Sorry, choosen by you lottery is full");
             }
 
-//            String uniqueCode = generateParticipanCode(participant.getEmail(), participant.getLottery().getStartDate());
+            String emailMessageError;
+            String ageMessageError;
+            String lotteryIdMessageError;
+            String codeMessageError;
 
-//            while (participantDAO.codeIsRegistered(uniqueCode)) {
-//                uniqueCode = generateParticipanCode(participant.getEmail(), participant.getLottery().getStartDate());
-//            }
+            if (bindingResult.hasErrors()) {
+                int emailErrorCount = bindingResult.getFieldErrorCount("email");
+                int ageErrorCount = bindingResult.getFieldErrorCount("age");
+                int lotteryIdErrorCount = bindingResult.getFieldErrorCount("lotteryId");
+                int codeErrorCount = bindingResult.getFieldErrorCount("uniqueCode");
+
+                emailMessageError = emailErrorCount != 0 ? bindingResult.getFieldError("email").getDefaultMessage() + "; \n" : "";
+                ageMessageError = ageErrorCount != 0 ? bindingResult.getFieldError("age").getDefaultMessage()+ "; \n" : "";
+                lotteryIdMessageError = lotteryIdErrorCount != 0 ? bindingResult.getFieldError("lotteryId").getDefaultMessage()+ "; \n" : "";
+                codeMessageError = codeErrorCount != 0 ? bindingResult.getFieldError("uniqueCode").getDefaultMessage()+ "; \n" : "";
+
+                return new Response("Fail", emailMessageError + ageMessageError + lotteryIdMessageError + codeMessageError);
+            }
+
+            if(!participant.getUniqueCode().matches("\\d+")){
+                return new Response("Fail", "Code must contain only digits");
+            }
+
+            if(!isValidFirst8Digits(participant.getUniqueCode(), wrappedLottery.get().getStartDate(), participant.getEmail())){
+                return new Response("Fail", "First 8 digits of your code is not valid");
+            }
+
+            for(Participant participant1 : wrappedLottery.get().getParticipants()){
+                if(participant1.getUniqueCode().equals(participant.getUniqueCode())){
+                    return new Response("Fail", "Entered code is registered");
+                }
+            }
+
 
             participant.setLottery(wrappedLottery.get());
-            participant.setUniqueCode(generateParticipanCode(participant.getEmail(), participant.getLottery().getStartDate()));
             wrappedLottery.get().setRegisteredParticipants(wrappedLottery.get().getRegisteredParticipants() + 1);
 
             participantDAO.register(participant);
@@ -76,17 +86,16 @@ public class ParticipantService {
 
     }
 
-    public String generateParticipanCode(String email, Long date) {
+    public boolean isValidFirst8Digits(String code, Long date, String email) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMYY");
-        String participanCode = simpleDateFormat.format(date);
-        participanCode += email.length() < 10 ? "0" + email.length() : email.length();
+        String first8Digits = simpleDateFormat.format(date);
+        first8Digits += email.length() < 10 ? "0" + email.length() : email.length();
 
-        for (int i = 0; i <= 7; i++) {
-            participanCode += new Random().nextInt(10);
+        String participant8Digits = code.substring(0,8);
+        if(first8Digits.equals(participant8Digits)){
+            return true;
         }
-        return participanCode;
+        return false;
     }
-
-
 }

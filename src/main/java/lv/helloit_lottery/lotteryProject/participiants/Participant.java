@@ -3,10 +3,7 @@ package lv.helloit_lottery.lotteryProject.participiants;
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +24,8 @@ public class Participant {
     @Column(name = "age")
     private Byte age;
 
+    @NotNull(message = "Field code can't be empty")
+    @Size(min=16, max = 16, message = "Code size need to be 16 digits")
     @Column(name = "unique_code")
     private String uniqueCode;
 
