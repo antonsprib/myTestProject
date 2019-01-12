@@ -2,6 +2,7 @@ package lv.helloit_lottery.lotteryProject.lotteries.DAO;
 
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
 import lv.helloit_lottery.lotteryProject.Response;
+import lv.helloit_lottery.lotteryProject.lotteries.LotteryBasic;
 
 
 import java.util.Collection;

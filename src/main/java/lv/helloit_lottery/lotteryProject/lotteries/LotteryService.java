@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -45,9 +46,14 @@ public class LotteryService {
             return new Response("Fail", "Participan count can be less or equals 0 \n");
         }
 
-        lottery.setStartDate(new Date().getTime());
+        String pattern = "dd.MM.yyyy HH:mm";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String startDate = simpleDateFormat.format(new Date());
+
+        lottery.setStartDate(startDate);
         lottery.setLotteryStatus(Status.OPEN);
         lottery.setRegisteredParticipants(0);
+
         return lotteryDAO.createLottery(lottery);
     }
 
@@ -94,7 +100,9 @@ public class LotteryService {
             String winnerCode = wrappedLottery.get().getParticipants().get(winnerIndex).getUniqueCode();
             String winnerEmail = wrappedLottery.get().getParticipants().get(winnerIndex).getEmail();
 
-            Long endDate = new Date().getTime();
+            String pattern = "dd.MM.yyyy HH:mm";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String endDate = simpleDateFormat.format(new Date());
             wrappedLottery.get().setEndDate(endDate);
 
             wrappedLottery.get().setWinnerCode(winnerCode);
@@ -108,17 +116,13 @@ public class LotteryService {
         return new Response("Fail", "Lottery does not exist");
     }
 
-    public Collection<Lottery> getStatistic() {
+    public Collection<LotteryBasic> getStatistic() {
         Collection<Lottery> lotteries = lotteryDAO.getAll();
-        List<Lottery> finishedLotteries = new ArrayList<>();
+        Collection<LotteryBasic> finishedLotteries = new ArrayList<>();
 
         for (Lottery lottery :lotteries) {
             if(lottery.getLotteryStatus().equals(Status.WINNER_SELECTED)){
-                lottery.setLimit(null);
-                lottery.setWinnerCode(null);
-                lottery.setWinnerEmail(null);
-                lottery.setLotteryStatus(null);
-                finishedLotteries.add(lottery);
+                finishedLotteries.add(new LotteryBasic(lottery.getId(), lottery.getTitle(),lottery.getStartDate(), lottery.getEndDate(), lottery.getRegisteredParticipants()));
             }
         }
         return finishedLotteries;

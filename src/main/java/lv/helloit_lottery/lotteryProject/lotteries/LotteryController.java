@@ -43,7 +43,7 @@ public class LotteryController {
     }
 
     @GetMapping(value = "/stats")
-    public  Collection<Lottery> getStatistic(){
+    public  Collection<LotteryBasic> getStatistic(){
         return lotteryService.getStatistic();
     }
 

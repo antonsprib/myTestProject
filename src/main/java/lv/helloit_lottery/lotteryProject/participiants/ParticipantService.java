@@ -86,14 +86,14 @@ public class ParticipantService {
 
     }
 
-    public boolean isValidFirst8Digits(String code, Long date, String email) {
+    public boolean isValidFirst8Digits(String code, String date, String email) {
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMYY");
-        String first8Digits = simpleDateFormat.format(date);
-        first8Digits += email.length() < 10 ? "0" + email.length() : email.length();
+        String withoutPoints = date.replace( ".", "" );
+        String correctString = withoutPoints.substring(0,4) + withoutPoints.substring(6,8);
+        correctString += email.length() < 10 ? "0" + email.length() : email.length();
 
         String participant8Digits = code.substring(0,8);
-        if(first8Digits.equals(participant8Digits)){
+        if(correctString.equals(participant8Digits)){
             return true;
         }
         return false;

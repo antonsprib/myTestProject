@@ -53,7 +53,7 @@
         </property>
 
         <property name="hbm2ddl.auto">
-            update
+            create-drop
         </property>
     </session-factory>
 </hibernate-configuration>
