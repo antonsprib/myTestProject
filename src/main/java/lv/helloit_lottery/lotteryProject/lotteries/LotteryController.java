@@ -52,4 +52,5 @@ public class LotteryController {
         return lotteryService.getStatus(id, email, code);
     }
 
+
 }

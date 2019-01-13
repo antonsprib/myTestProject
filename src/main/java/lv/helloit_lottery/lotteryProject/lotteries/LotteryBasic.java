@@ -13,7 +13,7 @@ public class LotteryBasic {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank(message = "Title can't be emptry")
+    @NotBlank(message = "Title can't be empty")
     @Size(max=50, message = "You entered too long title name")
     @Column(name = "title")
     private String title;
@@ -27,7 +27,7 @@ public class LotteryBasic {
     @Column(name = "registered_participants")
     private Integer registeredParticipants;
 
-    public LotteryBasic(Long id, @NotBlank(message = "Title can't be emptry") @Size(max = 50, message = "You entered too long title name") String title, String startDate, String endDate, Integer registeredParticipants) {
+    public LotteryBasic(Long id, @NotBlank(message = "Title can't be empty") @Size(max = 50, message = "You entered too long title name") String title, String startDate, String endDate, Integer registeredParticipants) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;

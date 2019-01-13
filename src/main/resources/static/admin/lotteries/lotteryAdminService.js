@@ -14,7 +14,7 @@ function createLottery() {
     }).then((resp) => resp.json()
     ).then(response => {
         if (response.status === 'OK') {
-            window.location.href = "/";
+            window.location.href = "/admin/index.html";
         } else {
             const div = document.createElement('div');
 
@@ -54,10 +54,9 @@ function addLotteries(lottery) {
         <td>${lottery.startDate}</td>
         <td>${lottery.lotteryStatus}</td>
         
-        <td class="text-right"><button type="button" class="btn btn-success" ${registerButtonDisable}  onclick="location.href='participan/registrationForm.html?lotteryId=${lottery.id}'">Register</a> </button> 
-                                <button type="button" class="btn btn-primary"  onclick="location.href='getStatus.html?id=${lottery.id}'">Status</button>
-                                <button type="button" class="btn btn-danger" ${stopButtonDisable} onclick="stopLottery(${lottery.id})">Stop lottery</button> 
-                                <button type="button" class="btn btn-primary" ${winnerButtonDisable} onclick="chooseWinner(${lottery.id})">Choose winner</button>
+        <td class="text-right">
+             <button type="button" class="btn btn-danger" ${stopButtonDisable} onclick="stopLottery(${lottery.id})">Stop lottery</button> 
+             <button type="button" class="btn btn-primary" ${winnerButtonDisable} onclick="chooseWinner(${lottery.id})">Choose winner</button>
         </td>
     `;
     document.getElementById("table-body").appendChild(tr);
@@ -78,7 +77,7 @@ function stopLottery(lotId) {
         'Content-Type': 'application/json;charset=UTF-8'
         }
     }).then(() =>{
-        window.location.href = "/";
+        window.location.href = "/admin/index.html";
     });
 
 }
@@ -98,7 +97,7 @@ function chooseWinner(lotId){
             'Content-Type': 'application/json;charset=UTF-8'
         }
     }).then(() =>{
-        window.location.href = "/";
+        window.location.href = "/admin/index.html";
     });
 
 }
@@ -133,16 +132,3 @@ function addStatistics(statistic) {
     document.getElementById("table-body").appendChild(tr);
 }
 
-function getStatus(){
-    const email = document.getElementById('email').value;
-    const code = document.getElementById('uniqueCode').value;
-    const id = new URL(window.location.href).searchParams.get('id');
-
-    fetch('/status?id=' + id + '&email=' + email + '&code=' + code, {
-        method: 'GET'
-        }).then((resp) => resp.json()
-    ).then(response => {
-        alert(response.status);
-    });
-
-}

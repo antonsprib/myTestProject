@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "LOTTERY")
+//@Table(name = "LOTTERY")
 public class Lottery extends LotteryBasic{
 
 

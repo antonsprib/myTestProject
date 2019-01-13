@@ -31,5 +31,8 @@ dependencies {
 	compile ('org.hibernate:hibernate-core:5.4.0.Final')
 	compile ('org.postgresql:postgresql:9.4.1212')
 	compile("org.hibernate.validator:hibernate-validator")
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-security")
+	
 }
