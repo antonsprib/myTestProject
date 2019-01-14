@@ -108,8 +108,8 @@ public class Participant {
         return "Participant{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", age='" + age + '\'' +
-                ", uniqueCode=" + uniqueCode +
+                ", age=" + age +
+                ", uniqueCode='" + uniqueCode + '\'' +
                 ", lotteryId=" + lotteryId +
                 ", lottery=" + lottery +
                 '}';

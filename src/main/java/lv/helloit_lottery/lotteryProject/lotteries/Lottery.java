@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-//@Table(name = "LOTTERY")
+@Table(name = "LOTTERY")
 public class Lottery extends LotteryBasic{
 
 
@@ -77,17 +77,6 @@ public class Lottery extends LotteryBasic{
     }
 
     @Override
-    public String toString() {
-        return "Lottery{" +
-                "limit=" + limit +
-                ", winnerCode='" + winnerCode + '\'' +
-                ", winnerEmail='" + winnerEmail + '\'' +
-                ", lotteryStatus=" + lotteryStatus +
-                ", participants=" + participants +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -98,6 +87,17 @@ public class Lottery extends LotteryBasic{
                 Objects.equals(winnerEmail, lottery.winnerEmail) &&
                 lotteryStatus == lottery.lotteryStatus &&
                 Objects.equals(participants, lottery.participants);
+    }
+
+    @Override
+    public String toString() {
+        return "Lottery{" +
+                "limit=" + limit +
+                ", winnerCode='" + winnerCode + '\'' +
+                ", winnerEmail='" + winnerEmail + '\'' +
+                ", lotteryStatus=" + lotteryStatus +
+                ", participants=" + participants +
+                '}';
     }
 
     @Override
