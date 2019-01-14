@@ -18,6 +18,7 @@ import java.util.Optional;
 public class ParticipantService {
 
     Logger logger = LoggerFactory.getLogger(ParticipantService.class);
+
     public final ParticipantDAO participantDAO;
     public final LotteryDAO lotteryDAO;
 
@@ -32,13 +33,14 @@ public class ParticipantService {
 
         if (wrappedLottery.isPresent()) {
 
+
             if (!wrappedLottery.get().getLotteryStatus().equals(Status.OPEN)) {
-                logger.warn("Lottery with id "+ wrappedLottery.get().getId() + "status is not OPEN.");
+                logger.warn("Lottery doesnt have status OPEN.");
                 return new Response("Fail", "Registration for this lottery is closed. Please choose lottery with status open");
             }
 
             if (wrappedLottery.get().getRegisteredParticipants() >= wrappedLottery.get().getLimit()) {
-                logger.warn("Lottery with id "+ wrappedLottery.get().getId() + "max participant count ir registered. Lottery is full");
+                logger.warn("Lottery with id max participant count ir registered. Lottery is full");
                 return new Response("Fail", "Sorry, choosen by you lottery is full");
             }
 
@@ -62,37 +64,36 @@ public class ParticipantService {
             }
 
             if(!participant.getUniqueCode().matches("\\d+")){
-                logger.warn("Entered code: "+ participant.getUniqueCode() + "contains not only numbers");
+                logger.warn("Entered code: contains not only numbers");
                 return new Response("Fail", "Code must contain only digits");
             }
 
             if(!isValidFirst8Digits(participant.getUniqueCode(), wrappedLottery.get().getStartDate(), participant.getEmail())){
-                logger.warn("Entered code: "+ participant.getUniqueCode() + "first 8 digits is not correct");
+                logger.warn("Entered code first 8 digits is not correct");
                 return new Response("Fail", "First 8 digits of your code is not valid");
             }
 
             for(Participant participant1 : wrappedLottery.get().getParticipants()){
                 if(participant1.getUniqueCode().equals(participant.getUniqueCode())){
-                    logger.warn("Entered code: "+ participant.getUniqueCode() + "is registered in DB");
+                    logger.warn("Entered code is registered in DB");
                     return new Response("Fail", "Entered code is registered");
                 }
             }
 
 
             participant.setLottery(wrappedLottery.get());
-            logger.info("Set lottery: "+ wrappedLottery.get());
             wrappedLottery.get().setRegisteredParticipants(wrappedLottery.get().getRegisteredParticipants() + 1);
             logger.info("Change participant count + 1");
 
             participantDAO.register(participant);
-            logger.info("Update participant: "+ participant);
+            logger.info("Update participant");
 
             lotteryDAO.updateLottery(wrappedLottery.get());
-            logger.info("Update lottery: "+ wrappedLottery.get());
+            logger.info("Update lottery");
 
             return new Response("OK");
         }
-        logger.warn("Lottery with id: "+ wrappedLottery.get().getId() + "does not exist");
+        logger.warn("Lottery with id does not exist");
         return new Response("Fail", "Lottery does not exist");
 
     }

@@ -53,6 +53,7 @@ public class LotteryService {
             return new Response("Fail", "Participan count can be less or equals 0 \n");
         }
 
+
         String pattern = "dd.MM.yyyy HH:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String startDate = simpleDateFormat.format(new Date());
@@ -62,7 +63,7 @@ public class LotteryService {
         logger.info("Set lottery status");
         lottery.setRegisteredParticipants(0);
         logger.info("Set registered participants count to 0");
-        logger.info("Lottery" + lottery + "successfully created");
+        logger.info("Lottery successfully created");
         return lotteryDAO.createLottery(lottery);
     }
 
@@ -84,14 +85,14 @@ public class LotteryService {
         if (wrappedLottery.isPresent()) {
             if (wrappedLottery.get().getLotteryStatus() != Status.OPEN) {
 
-                logger.error("Lottery " + wrappedLottery.get() + "is stopped or winner is selected");
+                logger.error("Lottery with id" + lotteryId + "is stopped or winner is selected");
                 return new Response("Fail", "You can't stop lottery. Lottery is stopped or winner is selected");
             }
             wrappedLottery.get().setLotteryStatus(Status.CLOSED);
             logger.info("Set lottery status to CLOSED");
 
             lotteryDAO.updateLottery(wrappedLottery.get());
-            logger.info("Lottery  " + wrappedLottery.get() + " status successfully changed to CLOSED");
+            logger.info("Lottery with id " + lotteryId + " status successfully changed to CLOSED");
             return new Response("OK");
         }
 
@@ -105,11 +106,11 @@ public class LotteryService {
         if (wrappedLottery.isPresent()) {
 
             if (wrappedLottery.get().getLotteryStatus() != Status.CLOSED) {
-                logger.error("Lottery " + wrappedLottery.get() + "status is not equals CLOSED");
+                logger.error("Lottery " + lotteryId + "status is not equals CLOSED");
                 return new Response("Fail", "You can't choose winner if lottery is not stopped");
             }
             if (wrappedLottery.get().getRegisteredParticipants() == 0) {
-                logger.error("Lottery with id: " + wrappedLottery.get().getId() + "don't have registered participants");
+                logger.error("Lottery with id: " + lotteryId + "don't have registered participants");
                 return new Response("Fail", "Can't choose winer if participan count = 0");
             }
             logger.info("Start choosing winner from all participans");
@@ -129,7 +130,7 @@ public class LotteryService {
             wrappedLottery.get().setLotteryStatus(Status.WINNER_SELECTED);
 
             lotteryDAO.updateLottery(wrappedLottery.get());
-            logger.info("Lottery : " + wrappedLottery.get() + " status successfully changed to WINNER_SELECTED and winner information saved to DB");
+            logger.info("Lottery : " + lotteryId + " status successfully changed to WINNER_SELECTED and winner information saved to DB");
             return new Response("OK", null, wrappedLottery.get().getWinnerCode());
         }
         logger.warn("Lottery with id: " + lotteryId + " does not exist");

@@ -39,12 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder())
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+//                .passwordEncoder(passwordEncoder())
+                .withUser("admin").password("{noop}admin").roles("ADMIN");
+//                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }
