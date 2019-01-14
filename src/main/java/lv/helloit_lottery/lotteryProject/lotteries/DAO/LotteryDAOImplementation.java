@@ -35,7 +35,7 @@ public class LotteryDAOImplementation implements LotteryDAO {
         transaction.commit();
         session.close();
 
-        return new Response("OK",id);
+        return new Response("OK", id);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LotteryDAOImplementation implements LotteryDAO {
 
         List<Lottery> lotteries = session.createQuery(query).getResultList();
         session.close();
-        return  lotteries;
+        return lotteries;
     }
 
     @Override
@@ -60,8 +60,8 @@ public class LotteryDAOImplementation implements LotteryDAO {
         query.where(builder.equal(root.get("title"), title));
         query.select(root);
 
-        List<Lottery>  identicalUnits= session.createQuery(query).getResultList();
-        if(identicalUnits.size() != 0){
+        List<Lottery> identicalUnits = session.createQuery(query).getResultList();
+        if (identicalUnits.size() != 0) {
             session.close();
             return false;
         }
@@ -74,7 +74,6 @@ public class LotteryDAOImplementation implements LotteryDAO {
         Session session = sessionFactory.openSession();
 
         Lottery lottery = session.get(Lottery.class, id);
-
 
 
         session.close();

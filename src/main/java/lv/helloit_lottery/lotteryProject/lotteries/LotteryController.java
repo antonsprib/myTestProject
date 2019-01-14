@@ -20,35 +20,35 @@ public class LotteryController {
     }
 
     @PostMapping(value = "/start-registration")
-    public Response createLottery(@Valid @RequestBody Lottery lottery, BindingResult bindingResult){
+    public Response createLottery(@Valid @RequestBody Lottery lottery, BindingResult bindingResult) {
         return lotteryService.createLottery(lottery, bindingResult);
     }
 
     @GetMapping(value = "/lotteries")
-    public Collection<Lottery> lotteries(){
+    public Collection<Lottery> lotteries() {
         return lotteryService.lotteries();
     }
 
     @PostMapping(value = "/stop-registration", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response stopLotteryRegistration(@RequestBody Lottery lottery){
+    public Response stopLotteryRegistration(@RequestBody Lottery lottery) {
 
         Long lotteryId = lottery.getId();
         return lotteryService.stopLotteryRegistration(lotteryId);
     }
 
     @PostMapping(value = "/choose-winner", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response chooseWinner(@RequestBody Lottery lottery){
+    public Response chooseWinner(@RequestBody Lottery lottery) {
         Long lotteryId = lottery.getId();
         return lotteryService.chooseWinner(lotteryId);
     }
 
     @GetMapping(value = "/stats")
-    public  Collection<LotteryBasic> getStatistic(){
+    public Collection<LotteryBasic> getStatistic() {
         return lotteryService.getStatistic();
     }
 
     @GetMapping(value = "/status")
-    public Response getStatus(@RequestParam Long id, String email, String code){
+    public Response getStatus(@RequestParam Long id, String email, String code) {
         return lotteryService.getStatus(id, email, code);
     }
 

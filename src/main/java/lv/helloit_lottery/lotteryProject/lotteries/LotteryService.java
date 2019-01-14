@@ -161,7 +161,7 @@ public class LotteryService {
                 logger.info("Start checking if participant with code:" + code + "and email:" + email + "is registered in lottery with id: " + id);
                 if (participant.getEmail().equals(email) && participant.getUniqueCode().equals(code)) {
                     if (wrappedLottery.get().getLotteryStatus() != Status.WINNER_SELECTED) {
-                        logger.warn("Lottery with id: "+ id + "is open or closed, but winner is not selected");
+                        logger.warn("Lottery with id: " + id + "is open or closed, but winner is not selected");
                         return new Response("PENDING");
                     }
                     if (wrappedLottery.get().getWinnerEmail().equals(email) && wrappedLottery.get().getWinnerCode().equals(code)) {
@@ -174,7 +174,7 @@ public class LotteryService {
                 }
             }
         }
-        logger.warn("Lottery with id: "+ id + "does not exist");
+        logger.warn("Lottery with id: " + id + "does not exist");
         return new Response("ERROR ");
     }
 }

@@ -21,16 +21,17 @@ public class Participant {
 
     @NotNull(message = "Field age can't be empty")
     @Min(value = 21, message = "Age can't be less than 21")
+    @Max(value = 127, message = "Age can't  be more 127")
     @Column(name = "age")
     private Byte age;
 
     @NotBlank(message = "Field code can't be empty")
-    @Size(min=16, max = 16, message = "Code size need to be 16 digits")
+    @Size(min = 16, max = 16, message = "Code size need to be 16 digits")
     @Column(name = "uniqueCode")
     private String uniqueCode;
 
     @NotNull(message = "Field lotteryId can't be empty")
-    @Column(name= "lotteryId")
+    @Column(name = "lotteryId")
     private Long lotteryId;
 
     public String getUniqueCode() {

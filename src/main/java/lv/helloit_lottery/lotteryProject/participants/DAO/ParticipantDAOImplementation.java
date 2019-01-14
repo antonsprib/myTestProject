@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public class ParticipantDAOImplementation implements ParticipantDAO{
+public class ParticipantDAOImplementation implements ParticipantDAO {
 
     private final SessionFactory sessionFactory;
 
@@ -47,8 +47,8 @@ public class ParticipantDAOImplementation implements ParticipantDAO{
         query.where(builder.equal(root.get("uniqueCode"), code));
         query.select(root);
 
-        List<Participant> identicalUnits= session.createQuery(query).getResultList();
-        if(identicalUnits.size() != 0){
+        List<Participant> identicalUnits = session.createQuery(query).getResultList();
+        if (identicalUnits.size() != 0) {
             session.close();
             return false;
         }
@@ -65,7 +65,7 @@ public class ParticipantDAOImplementation implements ParticipantDAO{
 
         List<Participant> participants = session.createQuery(query).getResultList();
         session.close();
-        return  participants;
+        return participants;
     }
 
 

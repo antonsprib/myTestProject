@@ -14,7 +14,7 @@ public class LotteryBasic {
     private Long id;
 
     @NotBlank(message = "Title can't be empty")
-    @Size(max=50, message = "You entered too long title name")
+    @Size(max = 50, message = "You entered too long title name")
     @Column(name = "title")
     private String title;
 

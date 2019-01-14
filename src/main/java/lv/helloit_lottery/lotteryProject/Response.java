@@ -26,11 +26,13 @@ public class Response {
         this.status = status;
         this.reason = reason;
     }
+
     public Response(String status, Long id, String winnerCode) {
         this.status = status;
         this.id = id;
         this.winnerCode = winnerCode;
     }
+
     public String getWinnerCode() {
         return winnerCode;
     }
@@ -54,7 +56,6 @@ public class Response {
     public void setId(Long id) {
         this.id = id;
     }
-
 
 
     public String getReason() {

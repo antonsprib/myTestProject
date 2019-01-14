@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "LOTTERY")
-public class Lottery extends LotteryBasic{
+public class Lottery extends LotteryBasic {
 
 
     @NotNull(message = "Participant count can't be empty")
@@ -33,7 +33,6 @@ public class Lottery extends LotteryBasic{
     private List<Participant> participants;
 
 
-
     public void setLotteryStatus(Status lotteryStatus) {
         this.lotteryStatus = lotteryStatus;
     }
@@ -41,7 +40,6 @@ public class Lottery extends LotteryBasic{
     public Status getLotteryStatus() {
         return lotteryStatus;
     }
-
 
 
     public Long getLimit() {

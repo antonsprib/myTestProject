@@ -56,25 +56,25 @@ public class ParticipantService {
                 int codeErrorCount = bindingResult.getFieldErrorCount("uniqueCode");
 
                 emailMessageError = emailErrorCount != 0 ? bindingResult.getFieldError("email").getDefaultMessage() + "; \n" : "";
-                ageMessageError = ageErrorCount != 0 ? bindingResult.getFieldError("age").getDefaultMessage()+ "; \n" : "";
-                lotteryIdMessageError = lotteryIdErrorCount != 0 ? bindingResult.getFieldError("lotteryId").getDefaultMessage()+ "; \n" : "";
-                codeMessageError = codeErrorCount != 0 ? bindingResult.getFieldError("uniqueCode").getDefaultMessage()+ "; \n" : "";
-                logger.warn("Incorrect input data:"+ emailMessageError + ageMessageError + lotteryIdMessageError + codeMessageError);
+                ageMessageError = ageErrorCount != 0 ? bindingResult.getFieldError("age").getDefaultMessage() + "; \n" : "";
+                lotteryIdMessageError = lotteryIdErrorCount != 0 ? bindingResult.getFieldError("lotteryId").getDefaultMessage() + "; \n" : "";
+                codeMessageError = codeErrorCount != 0 ? bindingResult.getFieldError("uniqueCode").getDefaultMessage() + "; \n" : "";
+                logger.warn("Incorrect input data:" + emailMessageError + ageMessageError + lotteryIdMessageError + codeMessageError);
                 return new Response("Fail", emailMessageError + ageMessageError + lotteryIdMessageError + codeMessageError);
             }
 
-            if(!participant.getUniqueCode().matches("\\d+")){
+            if (!participant.getUniqueCode().matches("\\d+")) {
                 logger.warn("Entered code: contains not only numbers");
                 return new Response("Fail", "Code must contain only digits");
             }
 
-            if(!isValidFirst8Digits(participant.getUniqueCode(), wrappedLottery.get().getStartDate(), participant.getEmail())){
+            if (!isValidFirst8Digits(participant.getUniqueCode(), wrappedLottery.get().getStartDate(), participant.getEmail())) {
                 logger.warn("Entered code first 8 digits is not correct");
                 return new Response("Fail", "First 8 digits of your code is not valid");
             }
 
-            for(Participant participant1 : wrappedLottery.get().getParticipants()){
-                if(participant1.getUniqueCode().equals(participant.getUniqueCode())){
+            for (Participant participant1 : wrappedLottery.get().getParticipants()) {
+                if (participant1.getUniqueCode().equals(participant.getUniqueCode())) {
                     logger.warn("Entered code is registered in DB");
                     return new Response("Fail", "Entered code is registered");
                 }
@@ -100,12 +100,12 @@ public class ParticipantService {
 
     public boolean isValidFirst8Digits(String code, String date, String email) {
 
-        String withoutPoints = date.replace( ".", "" );
-        String correctString = withoutPoints.substring(0,4) + withoutPoints.substring(6,8);
+        String withoutPoints = date.replace(".", "");
+        String correctString = withoutPoints.substring(0, 4) + withoutPoints.substring(6, 8);
         correctString += email.length() < 10 ? "0" + email.length() : email.length();
 
-        String participant8Digits = code.substring(0,8);
-        if(correctString.equals(participant8Digits)){
+        String participant8Digits = code.substring(0, 8);
+        if (correctString.equals(participant8Digits)) {
             return true;
         }
         return false;
