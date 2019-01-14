@@ -1,4 +1,4 @@
-package lv.helloit_lottery.lotteryProject;
+package lv.helloit_lottery.lotteryProject.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

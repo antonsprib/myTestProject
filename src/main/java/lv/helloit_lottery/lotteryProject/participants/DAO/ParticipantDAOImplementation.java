@@ -1,8 +1,7 @@
-package lv.helloit_lottery.lotteryProject.participiants.DAO;
+package lv.helloit_lottery.lotteryProject.participants.DAO;
 
 import lv.helloit_lottery.lotteryProject.Response;
-import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
-import lv.helloit_lottery.lotteryProject.participiants.Participant;
+import lv.helloit_lottery.lotteryProject.participants.Participant;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,7 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+
 @Repository
 public class ParticipantDAOImplementation implements ParticipantDAO{
 

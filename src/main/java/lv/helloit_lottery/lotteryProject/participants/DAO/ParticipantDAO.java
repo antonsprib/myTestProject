@@ -1,12 +1,10 @@
-package lv.helloit_lottery.lotteryProject.participiants.DAO;
+package lv.helloit_lottery.lotteryProject.participants.DAO;
 
 import lv.helloit_lottery.lotteryProject.Response;
-import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
-import lv.helloit_lottery.lotteryProject.participiants.Participant;
+import lv.helloit_lottery.lotteryProject.participants.Participant;
 
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface ParticipantDAO {
 

@@ -1,7 +1,7 @@
 package lv.helloit_lottery.lotteryProject;
 
 import lv.helloit_lottery.lotteryProject.lotteries.Lottery;
-import lv.helloit_lottery.lotteryProject.participiants.Participant;
+import lv.helloit_lottery.lotteryProject.participants.Participant;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

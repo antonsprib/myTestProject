@@ -1,4 +1,4 @@
-package lv.helloit_lottery.lotteryProject;
+package lv.helloit_lottery.lotteryProject.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder())
-                .withUser("user").password(passwordEncoder().encode("admin")).roles("ADMIN");
+                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
     }
 
     @Bean

@@ -1,4 +1,4 @@
-package lv.helloit_lottery.lotteryProject.participiants;
+package lv.helloit_lottery.lotteryProject.participants;
 
 
 import lv.helloit_lottery.lotteryProject.Response;

@@ -1,13 +1,10 @@
 package lv.helloit_lottery.lotteryProject.lotteries;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lv.helloit_lottery.lotteryProject.participiants.Participant;
+import lv.helloit_lottery.lotteryProject.participants.Participant;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
