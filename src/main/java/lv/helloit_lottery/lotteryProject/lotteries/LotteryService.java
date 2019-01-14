@@ -133,6 +133,7 @@ public class LotteryService {
             logger.info("Lottery : " + lotteryId + " status successfully changed to WINNER_SELECTED and winner information saved to DB");
             return new Response("OK", null, wrappedLottery.get().getWinnerCode());
         }
+
         logger.warn("Lottery with id: " + lotteryId + " does not exist");
         return new Response("Fail", "Lottery does not exist");
     }
